@@ -3,6 +3,7 @@
     flex-grow: 1;
     justify-content: flex-end;
     align-items: flex-end;
+    flex-direction: row;
 }
 
 .toolbar-right-zone {
@@ -10,6 +11,7 @@
     flex-grow: 1;
     justify-content: flex-start;
     align-items: flex-end;
+    flex-direction: row;
 }
 
 .toolbar-btn-invoke-menu {
@@ -23,6 +25,10 @@
 
 .setting-horizontal-panel {
     flex-direction: row;
+}
+
+.setting-listview {
+    flex-direction: column;
 }
 
 .setting-toggle {
@@ -46,8 +52,3 @@
     width: 600px;
     margin-left: 50px;
 }
-
-.setting-listview {
-    flex-direction: column;
-}
-

@@ -12,6 +12,7 @@ namespace CustomToolbar.Editor
 	{
 		protected static string GetPackageRootPath => "ProjectSettings/CustomToolbar";
 
+		[JsonProperty]
 		protected bool IsEnabled = true;
 		protected int WidthInToolbar;
 
@@ -80,7 +81,10 @@ namespace CustomToolbar.Editor
 
 		protected virtual void OnDrawInSettings(VisualElement container)
 		{
-			var toggleBtn = new Toggle();
+			var toggleBtn = new Toggle
+			{
+				value = IsEnabled
+			};
 			toggleBtn.AddToClassList(SETTING_TOGGLE);
 			container.Add(toggleBtn);
 			

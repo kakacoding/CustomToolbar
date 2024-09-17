@@ -81,7 +81,7 @@ namespace CustomToolbar.Editor
 				tooltip = Tooltip,
 			};
 			toolbarBtn.AddToClassList(TOOLBAR_BTN_INVOKE_MENU);
-			toolbarBtn.style.width = toolbarBtn.text.Length * 10;
+			toolbarBtn.style.width = toolbarBtn.text.Length * 15;
 			toolbarBtn.clicked += () =>
 			{
 				if (string.IsNullOrEmpty(InvokeMenuPath))

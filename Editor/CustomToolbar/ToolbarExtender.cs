@@ -18,7 +18,7 @@ namespace CustomToolbar.Editor
 		private static VisualElement RightZoneContainer { get; set; }
 		
 		//private static ToolbarSetting settingBtn = new ToolbarSetting();
-		private static CustomToolbarSettings _settings;
+		private static CustomToolbarConfig _config;
 
 		static ToolbarExtender()
 		{
@@ -45,7 +45,7 @@ namespace CustomToolbar.Editor
 			Reload();
 		}
 
-		private static void Reload()
+		internal static void Reload()
 		{
 			InitElements();
 			GUILeft(LeftZoneContainer);
@@ -79,24 +79,24 @@ namespace CustomToolbar.Editor
 
 		private static void InitElements() 
 		{
-			_settings = CustomToolbarSettings.Instance; 
-			_settings.Elements.ForEach(element => element.Init());
+			_config = CustomToolbarConfig.Instance; 
+			_config.Elements.ForEach(element => element.Init());
 		}
 
 		private static void GUILeft(VisualElement container) 
 		{
 			container.Clear();
-			var idx = _settings.Elements.FindIndex(element => element is ToolbarSides);
-			DrawInToolbar(container, 0, idx != -1 ? idx : _settings.Elements.Count);
+			var idx = _config.Elements.FindIndex(element => element is ToolbarSides);
+			DrawInToolbar(container, 0, idx != -1 ? idx : _config.Elements.Count);
 		}
 		
 		private static void GUIRight(VisualElement container)
 		{
 			container.Clear();
-			var idx = _settings.Elements.FindIndex(element => element is ToolbarSides);
-			if (idx < _settings.Elements.Count && idx != -1) 
+			var idx = _config.Elements.FindIndex(element => element is ToolbarSides);
+			if (idx < _config.Elements.Count && idx != -1) 
 			{
-				DrawInToolbar(container, idx, _settings.Elements.Count);	
+				DrawInToolbar(container, idx, _config.Elements.Count);	
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace CustomToolbar.Editor
 				// 		}
 				// 	}
 				// }
-				_settings.Elements[i].DrawInToolbar(container);
+				_config.Elements[i].DrawInToolbar(container);
 			}
 		}
 	}
