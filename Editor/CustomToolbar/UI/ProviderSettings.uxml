@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Packages/com.kakacoding.customtoolbar/Editor/CustomToolbar/UI/Styles.uss?fileID=7433441132597879392&amp;guid=d1a19ae326544424a544afc639b54f9f&amp;type=3#Styles" />
+    <ui:VisualElement>
+        <ui:Label text="CustomToolbar" display-tooltip-when-elided="true" name="Title" style="font-size: 20px; -unity-font-style: bold; white-space: nowrap; -unity-text-align: upper-left;" />
+    </ui:VisualElement>
+    <ui:VisualElement>
+        <ui:Label display-tooltip-when-elided="true" name="labelHint" />
+    </ui:VisualElement>
+    <ui:ScrollView name="toolbarScrollView" focusable="true" style="flex-direction: row;" />
+    <ui:VisualElement style="flex-direction: row-reverse;">
+        <ui:Button text="Apply" display-tooltip-when-elided="true" name="btnApply" style="width: 200px; flex-direction: row; align-items: stretch; white-space: nowrap; -unity-text-align: middle-center; flex-basis: 200px;" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-direction: column;">
+        <ui:VisualElement style="flex-direction: row;">
+            <ui:Toggle value="false" name="toggleEnable" class="toolbar-toggle" />
+            <ui:Label text="[按钮]设置" display-tooltip-when-elided="true" name="labelTypeName" class="setting-label-display" style="width: 200px; flex-direction: column;" />
+            <ui:TextField picking-mode="Ignore" label="按钮显示文字" value="filler text" text="MM" name="txtShow" max-length="100" class="toolbar-text-invoke-menu-display setting-text-invoke-menu-display" />
+            <ui:TextField picking-mode="Ignore" label="调用的菜单" text="Assets/Version Control/Check out" name="txtMenu" class="toolbar-text-invoke-menu-path setting-text-invoke-menu-path" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row;">
+            <ui:Toggle value="false" name="toggleEnable" class="toolbar-toggle" />
+            <ui:Label text="[按钮]设置" display-tooltip-when-elided="true" name="labelTypeName" class="setting-label-display" style="width: 200px; flex-direction: column;" />
+            <ui:TextField picking-mode="Ignore" label="按钮显示文字" value="filler text" text="MM" name="txtShow" max-length="100" class="toolbar-text-invoke-menu-display setting-text-invoke-menu-display" />
+            <ui:TextField picking-mode="Ignore" label="调用的菜单" text="Assets/Version Control/Check out" name="txtMenu" class="toolbar-text-invoke-menu-path setting-text-invoke-menu-path" />
+        </ui:VisualElement>
+        <ui:ListView focusable="true" />
+    </ui:VisualElement>
+</ui:UXML>

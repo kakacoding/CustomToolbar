@@ -1,0 +1,53 @@
+.toolbar-left-zone {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.toolbar-right-zone {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.toolbar-btn-invoke-menu {
+    height: 20px;
+    width: 26px;
+    padding: 0 0 0 0;
+    font-size: 15px;
+    flex-shrink: 0;
+    -unity-text-align: middle-center;
+}
+
+.setting-horizontal-panel {
+    flex-direction: row;
+}
+
+.setting-toggle {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.setting-label-display {
+    width: 200px;
+    font-size: 13;
+    -unity-font-style: bold;
+}
+
+.setting-text-invoke-menu-display {
+    width: 300px;
+}
+
+.setting-text-invoke-menu-path {
+    width: 600px;
+    margin-left: 50px;
+}
+
+.setting-listview {
+    flex-direction: column;
+}
+

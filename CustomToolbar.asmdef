@@ -1,0 +1,8 @@
+﻿{
+  "name": "CustomToolbar",
+  "rootNamespace": "CustomToolbar.Editor",
+  "references": [],
+  "includePlatforms": [
+    "Editor"
+  ]
+}
