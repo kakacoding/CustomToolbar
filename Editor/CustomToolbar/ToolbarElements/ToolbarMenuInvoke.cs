@@ -13,29 +13,22 @@ namespace CustomToolbar.Editor
 	internal class ToolbarMenuInvoke : BaseToolbarElement
 	{
 		[JsonProperty]
-		internal string InvokeMenuDisplay;
+		internal string BtnText;
 		[JsonProperty]
-		internal string InvokeMenuPath;
+		internal string MenuInvokePath;
 	
 		private const string StrShow = "按钮显示文字";
 		private const string StrMenuPath = "调用的菜单路径";
 		private const string StrMenuNull = "菜单命令为空";
-		private string Tooltip => $"调用菜单 {InvokeMenuPath}";
-
-		private const string TOOLBAR_BTN_INVOKE_MENU = "toolbar-btn-invoke-menu";
-		private const string SETTING_INVOKE_MENU_PATH = "setting-text-invoke-menu-path";
-		private const string SETTING_INVOKE_MENU_DISPLAY = "setting-text-invoke-menu-display";
-		public override void Init()
-		{
-		}
-
+		private string Tooltip => $"调用菜单 {MenuInvokePath}";
+		
 		public override string CountingSubKey
 		{
 			get 
 			{
-				if (!string.IsNullOrEmpty(InvokeMenuPath))
+				if (!string.IsNullOrEmpty(MenuInvokePath))
 				{
-					var arr = InvokeMenuPath.Split('/');
+					var arr = MenuInvokePath.Split('/');
 					if (arr.Length > 1)
 					{
 						return arr[^1].Replace(" ", "_");
@@ -49,48 +42,50 @@ namespace CustomToolbar.Editor
 		protected override void OnDrawInSettings(VisualElement container)
 		{
 			base.OnDrawInSettings(container);
-			TextField txt;
-			container.Add(txt = new TextField
+			
+			var txtBtnText = new TextField
 			{
 				label = StrShow,
-				value = InvokeMenuDisplay,
-			});
-			txt.AddToClassList(SETTING_INVOKE_MENU_DISPLAY);
-			txt.RegisterValueChangedCallback(evt =>
+				value = BtnText,
+			};
+			txtBtnText.AddToClassList(SETTING_TEXT_SMALL);
+			txtBtnText.RegisterCallback<ChangeEvent<string>>(evt =>
 			{
-				InvokeMenuDisplay = evt.newValue;
+				BtnText = evt.newValue;
 			});
-			
-			container.Add(txt = new TextField
+			container.Add(txtBtnText);
+
+			var txtMenuPath = new TextField
 			{
 				label = StrMenuPath,
-				value = InvokeMenuPath
-			});
-			txt.AddToClassList(SETTING_INVOKE_MENU_PATH);
-			txt.RegisterValueChangedCallback(evt =>
+				value = MenuInvokePath
+			};
+			txtMenuPath.AddToClassList(SETTING_TEXT_LARGE);
+			txtMenuPath.RegisterCallback<ChangeEvent<string>>(evt =>
 			{
-				InvokeMenuPath = evt.newValue;
-			});
+				MenuInvokePath = evt.newValue;
+			});			
+			container.Add(txtMenuPath);
 		}
 
 		protected override void OnDrawInToolbar(VisualElement container)
 		{
 			var toolbarBtn = new ToolbarButton  
 			{
-				text = InvokeMenuDisplay,
+				text = BtnText,
 				tooltip = Tooltip,
 			};
-			toolbarBtn.AddToClassList(TOOLBAR_BTN_INVOKE_MENU);
+			toolbarBtn.AddToClassList(TOOLBAR_BTN_MENU_INVOKE);
 			toolbarBtn.style.width = toolbarBtn.text.Length * 15;
 			toolbarBtn.clicked += () =>
 			{
-				if (string.IsNullOrEmpty(InvokeMenuPath))
+				if (string.IsNullOrEmpty(MenuInvokePath))
 				{
 					CustomToolbarUtility.LogError(StrMenuNull);
 				}
 				else
 				{
-					EditorApplication.ExecuteMenuItem(InvokeMenuPath);
+					EditorApplication.ExecuteMenuItem(MenuInvokePath);
 					Counting();
 				}
 			};

@@ -14,7 +14,7 @@
     flex-direction: row;
 }
 
-.toolbar-btn-invoke-menu {
+.toolbar-btn-menu-invoke {
     height: 20px;
     width: 26px;
     padding: 0 0 0 0;
@@ -44,11 +44,15 @@
     -unity-font-style: bold;
 }
 
-.setting-text-invoke-menu-display {
+.setting-text-small {
     width: 300px;
 }
 
-.setting-text-invoke-menu-path {
+.setting-text-large {
     width: 600px;
     margin-left: 50px;
+}
+
+.setting-text-separator-px {
+    width: 300px;
 }

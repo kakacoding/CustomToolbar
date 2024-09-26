@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEditor;
@@ -10,19 +11,27 @@ namespace CustomToolbar.Editor
 {
 	internal abstract class BaseToolbarElement
 	{
-		protected static string GetPackageRootPath => "ProjectSettings/CustomToolbar";
-
 		[JsonProperty]
 		protected bool IsEnabled = true;
-		protected int WidthInToolbar;
-
-		protected const float FieldSizeSpace = 10.0f;
-		protected const float FieldSizeSingleChar = 13.0f;
-		protected const float FieldSizeWidth = 50.0f;
-		protected const float DefaultSectionWidth = 250;
 		
 		private const string SETTING_TOGGLE = "setting-toggle";
 		private const string SETTING_LABEL_DISPLAY = "setting-label-display";
+
+		#region Styles
+
+		protected const string TOOLBAR_BTN_MENU_INVOKE = "toolbar-btn-menu-invoke";
+		protected const string SETTING_TEXT_SMALL = "setting-text-small";
+		protected const string SETTING_TEXT_LARGE = "setting-text-large";
+
+		#endregion
+		
+		[JsonIgnore]
+		public virtual string CountingSubKey => "";
+
+		protected BaseToolbarElement() 
+		{
+		}
+
 		internal GUIStyle _style;
 		
 
@@ -31,49 +40,13 @@ namespace CustomToolbar.Editor
 			get => _style ??= new GUIStyle(CustomToolbarUtility_Styles.CommandStyle);
 			set => _style = value;
 		}
-
-		[JsonIgnore]
-		public virtual string CountingSubKey => DisplayNameInToolbar;
-		[JsonIgnore]
-		public virtual string DisplayNameInToolbar => "";
-
-		protected BaseToolbarElement() : this(150)
-		{
-			//Init();
-		}
-
-		protected BaseToolbarElement(int widthInToolbar)
-		{
-			WidthInToolbar = widthInToolbar;
-		}
-
-		// public void DrawInList(Rect position)
-		// {
-		// 	position.y += 2;
-		// 	position.height -= 4;
-		//
-		// 	position.x += FieldSizeSpace;
-		// 	position.width = 10;
-		// 	IsEnabled = EditorGUI.ToggleLeft(position, "", IsEnabled);
-		//
-		// 	position.x += position.width + FieldSizeSpace;
-		// 	position.width = 200;
-		// 	EditorGUI.LabelField(position, ToolbarElementDisplay.GetDisplay(this.GetType()));
-		//
-		// 	EditorGUI.BeginDisabledGroup(!IsEnabled);
-		// 	OnDrawInSettings(position);
-		// 	EditorGUI.EndDisabledGroup();
-		// }
-
+		
 		public void DrawInToolbar(VisualElement container)
 		{
 			if (IsEnabled) OnDrawInToolbar(container);
 		}
 
-		public void DrawInSettings(VisualElement container)
-		{
-			OnDrawInSettings(container);
-		}
+		public void DrawInSettings(VisualElement container) => OnDrawInSettings(container);
 
 		public virtual void Init()
 		{
@@ -81,11 +54,16 @@ namespace CustomToolbar.Editor
 
 		protected virtual void OnDrawInSettings(VisualElement container)
 		{
+			container.Clear();
 			var toggleBtn = new Toggle
 			{
 				value = IsEnabled
 			};
 			toggleBtn.AddToClassList(SETTING_TOGGLE);
+			toggleBtn.RegisterCallback<ChangeEvent<bool>>(evt =>
+			{
+				IsEnabled = evt.newValue;
+			});
 			container.Add(toggleBtn);
 			
 			var labelDisplay = new Label
@@ -95,7 +73,10 @@ namespace CustomToolbar.Editor
 			labelDisplay.AddToClassList(SETTING_LABEL_DISPLAY);
 			container.Add(labelDisplay);
 		}
-		protected abstract void OnDrawInToolbar(VisualElement container);
+
+		protected virtual void OnDrawInToolbar(VisualElement container)
+		{
+		}
 
 		protected void Counting()
 		{
