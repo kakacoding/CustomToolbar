@@ -8,11 +8,10 @@ using UnityEngine.UIElements;
 
 namespace CustomToolbar.Editor
 {
-    internal class TextureTextSettingCtrl : VisualElement
+    internal class TextureTextCtrl : VisualElement
     {
         internal delegate CustomToolbarUtility.ETextTextureDisplay DisplayGetter();
         internal delegate void DisplaySetter(CustomToolbarUtility.ETextTextureDisplay value);
-        
         internal delegate string TextGetter();
         internal delegate void TextSetter(string value);
         internal delegate string TextureGetter();
@@ -28,6 +27,7 @@ namespace CustomToolbar.Editor
                     flexDirection = FlexDirection.Row,
                     alignContent = Align.FlexStart,
                     alignItems = Align.Center,
+                    width = StyleKeyword.Auto,
                     paddingBottom = 0,
                     paddingTop =0,
                     paddingLeft = 0,
@@ -83,7 +83,7 @@ namespace CustomToolbar.Editor
                 value = textGetter(),
             };
             txtBtnText.AddToClassList(CustomToolbarUtility.SETTING_TEXT_MIN);
-            txtBtnText.RegisterCallback<ChangeEvent<string>>(evt =>
+            txtBtnText.RegisterValueChangedCallback(evt =>
             {
                 textSetter(evt.newValue);
             });

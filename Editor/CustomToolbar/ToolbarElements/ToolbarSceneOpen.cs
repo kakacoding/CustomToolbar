@@ -33,8 +33,8 @@ namespace CustomToolbar.Editor
 				label = StrShow,
 				value = BtnText,
 			};
-			txtBtnText.AddToClassList(SETTING_TEXT_SMALL);
-			txtBtnText.RegisterCallback<ChangeEvent<string>>(evt =>
+			txtBtnText.AddToClassList(CustomToolbarUtility.SETTING_TEXT_SMALL);
+			txtBtnText.RegisterValueChangedCallback(evt =>
 			{
 				BtnText = evt.newValue;
 			});
@@ -45,8 +45,8 @@ namespace CustomToolbar.Editor
 				label = StrSceneName,
 				value = SceneName,
 			};
-			txtSceneName.AddToClassList(SETTING_TEXT_LARGE);
-			txtSceneName.RegisterCallback<ChangeEvent<string>>(evt =>
+			txtSceneName.AddToClassList(CustomToolbarUtility.SETTING_TEXT_LARGE);
+			txtSceneName.RegisterValueChangedCallback(evt =>
 			{
 				SceneName = evt.newValue;
 			});			
@@ -60,7 +60,7 @@ namespace CustomToolbar.Editor
 				text = BtnText,
 				tooltip = Tooltip,
 			};
-			toolbarBtn.AddToClassList(TOOLBAR_BTN_MENU_INVOKE);
+			toolbarBtn.AddToClassList(CustomToolbarUtility.TOOLBAR_BTN_MENU_INVOKE);
 			toolbarBtn.style.width = toolbarBtn.text.Length * 15;
 			toolbarBtn.clicked += () =>
 			{

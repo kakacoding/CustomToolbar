@@ -1,10 +1,13 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
+using UnityEngine.Windows;
 
 namespace CustomToolbar.Editor
 {
@@ -13,15 +16,18 @@ namespace CustomToolbar.Editor
 	internal class ToolbarMenuInvoke : BaseToolbarElement
 	{
 		[JsonProperty]
+		internal CustomToolbarUtility.ETextTextureDisplay SettingDisplayType;
+		[JsonProperty]
 		internal string BtnText;
 		[JsonProperty]
+		internal string TexturePath;
+		[JsonProperty]
 		internal string MenuInvokePath;
-	
-		private const string StrShow = "按钮显示文字";
+		
 		private const string StrMenuPath = "调用的菜单路径";
 		private const string StrMenuNull = "菜单命令为空";
 		private string Tooltip => $"调用菜单 {MenuInvokePath}";
-		
+
 		public override string CountingSubKey
 		{
 			get 
@@ -38,30 +44,26 @@ namespace CustomToolbar.Editor
 				return "";
 			}
 		}
-
+		
 		protected override void OnDrawInSettings(VisualElement container)
 		{
 			base.OnDrawInSettings(container);
-			
-			var txtBtnText = new TextField
-			{
-				label = StrShow,
-				value = BtnText,
-			};
-			txtBtnText.AddToClassList(SETTING_TEXT_SMALL);
-			txtBtnText.RegisterCallback<ChangeEvent<string>>(evt =>
-			{
-				BtnText = evt.newValue;
-			});
-			container.Add(txtBtnText);
 
-			var txtMenuPath = new TextField
+			container.Add(TextureTextCtrl.Create(
+				()=>SettingDisplayType,
+				v=>SettingDisplayType=v,
+				()=>BtnText,
+				v=>BtnText=v,
+				()=>TexturePath,
+				v=>TexturePath=v
+				));
+
+			var txtMenuPath = new TextField(StrMenuPath)
 			{
-				label = StrMenuPath,
 				value = MenuInvokePath
 			};
-			txtMenuPath.AddToClassList(SETTING_TEXT_LARGE);
-			txtMenuPath.RegisterCallback<ChangeEvent<string>>(evt =>
+			txtMenuPath.AddToClassList(CustomToolbarUtility.SETTING_TEXT_LARGE);
+			txtMenuPath.RegisterValueChangedCallback(evt =>
 			{
 				MenuInvokePath = evt.newValue;
 			});			
@@ -70,27 +72,23 @@ namespace CustomToolbar.Editor
 
 		protected override void OnDrawInToolbar(VisualElement container)
 		{
-			var toolbarBtn = new ToolbarButton  
-			{
-				text = BtnText,
-				tooltip = Tooltip,
-			};
-			toolbarBtn.AddToClassList(TOOLBAR_BTN_MENU_INVOKE);
-			toolbarBtn.style.width = toolbarBtn.text.Length * 15;
-			toolbarBtn.clicked += () =>
-			{
-				if (string.IsNullOrEmpty(MenuInvokePath))
+			container.Add(ImageButtonCtrl.Create(
+				()=>SettingDisplayType,
+				()=>BtnText,
+				()=>TexturePath,
+				()=>Tooltip,
+				() =>
 				{
-					CustomToolbarUtility.LogError(StrMenuNull);
-				}
-				else
-				{
-					EditorApplication.ExecuteMenuItem(MenuInvokePath);
-					Counting();
-				}
-			};
-			
-			container.Add(toolbarBtn);
+					if (string.IsNullOrEmpty(MenuInvokePath))
+					{
+						CustomToolbarUtility.LogError(StrMenuNull);
+					}
+					else
+					{
+						EditorApplication.ExecuteMenuItem(MenuInvokePath);
+						Counting();
+					}
+				}));
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace CustomToolbar.Editor
 				value = SeparatorPx.ToString(),
 			};
 			txtShow.AddToClassList(SETTING_SEPARATOR_PX);
-			txtShow.RegisterCallback<ChangeEvent<string>>(evt =>
+			txtShow.RegisterValueChangedCallback(evt =>
 			{
 				if (!int.TryParse(evt.newValue, out SeparatorPx))
 				{

@@ -10,13 +10,4 @@
     <ui:VisualElement style="flex-direction: row-reverse;">
         <ui:Button text="保存并应用" display-tooltip-when-elided="true" name="btnApply" style="width: 200px; flex-direction: row; align-items: stretch; white-space: nowrap; -unity-text-align: middle-center; flex-basis: 200px;" />
     </ui:VisualElement>
-    <ui:VisualElement style="flex-direction: column;">
-        <ui:VisualElement style="flex-direction: row;">
-            <ui:Toggle value="false" name="toggleEnable" class="toolbar-toggle" />
-            <ui:Label text="[按钮]设置" display-tooltip-when-elided="true" name="labelTypeName" class="setting-label-display" style="width: 200px; flex-direction: column;" />
-            <ui:TextField picking-mode="Ignore" label="按钮显示文字" value="filler text" text="MM" name="txtShow" max-length="100" class="toolbar-text-invoke-menu-display setting-text-invoke-menu-display" />
-            <ui:TextField picking-mode="Ignore" label="调用的菜单" text="Assets/Version Control/Check out" name="txtMenu" class="toolbar-text-invoke-menu-path setting-text-invoke-menu-path" />
-        </ui:VisualElement>
-        <ui:ListView focusable="true" />
-    </ui:VisualElement>
 </ui:UXML>

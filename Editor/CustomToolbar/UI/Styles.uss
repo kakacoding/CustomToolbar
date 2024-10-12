@@ -17,14 +17,41 @@
 .toolbar-btn-menu-invoke {
     height: 20px;
     width: 26px;
-    padding: 0 0 0 0;
+    padding: 0;
     font-size: 15px;
     flex-shrink: 0;
     -unity-text-align: middle-center;
 }
 
+.toolbar-btn-menu-invoke .unity-help-box {
+    background-color: rgba(63,63,63,0);
+    border-bottom-color: rgba(63,63,63,0);
+    border-top-color: rgba(63,63,63,0);
+    border-left-color: rgba(63,63,63,0);
+    border-right-color: rgba(63,63,63,0);
+    padding: 0;
+}
+
+.toolbar-btn-menu-invoke .unity-help-box .unity-help-box__label{
+   font-size: 12;
+    -unity-font-style: bold;
+}
+
+.toolbar-btn-menu-invoke .unity-help-box .unity-help-box__icon {
+    min-width: 16px;
+    max-width: 16px;
+    min-height: 16px;
+    max-height: 16px;
+}
+
 .setting-horizontal-panel {
     flex-direction: row;
+    align-content: flex-start;
+    align-items: center;
+    align-self: flex-start;
+    padding-left: 0;
+    min-height:20px;
+    max-height:20px;
 }
 
 .setting-listview {
@@ -32,16 +59,20 @@
 }
 
 .setting-toggle {
-    width: 20px;
-    height: 20px;
-    margin-bottom: 0;
-    margin-top: 0;
+    flex-direction: row-reverse;
+    width: 170px;
 }
 
-.setting-label-display {
-    width: 200px;
-    font-size: 13;
+.setting-toggle .unity-toggle__input{
+    margin-top: 2px;
+}
+
+.setting-toggle .unity-toggle__label{
     -unity-font-style: bold;
+}
+
+.setting-text-min {
+    width: 100px;
 }
 
 .setting-text-small {
@@ -49,10 +80,28 @@
 }
 
 .setting-text-large {
+    margin-left: auto;
     width: 600px;
-    margin-left: 50px;
+}
+.setting-text-large .unity-label {
+    margin-top: -2px;
+    min-width: 90px;
+    max-width: 90px;
+}
+
+.setting-texture-min {
+    width: 100px;
 }
 
 .setting-text-separator-px {
     width: 300px;
+}
+
+.setting-text-texture-enum {
+    width: 150px
+}
+.setting-text-texture-enum .unity-label {
+    margin-top: -2px;
+    min-width: 55px;
+    max-width: 55px;
 }

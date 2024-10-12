@@ -6,36 +6,44 @@ using UnityEngine.UIElements;
 
 namespace CustomToolbar.Editor
 {
-    public class ImageButtonToolbarCtrl : VisualElement
+    public class ImageButtonCtrl : VisualElement
     {
+	    internal delegate CustomToolbarUtility.ETextTextureDisplay DisplayGetter();
+	    internal delegate string TextGetter();
+	    internal delegate string TextureGetter();
+	    internal delegate string TooltipGetter();
+	    
 	    internal delegate void Click();
-        internal static VisualElement Create(Click clickCallback)
+        internal static VisualElement Create(DisplayGetter displayGetter, TextGetter textGetter, TextureGetter textureGetter, TooltipGetter tooltipGetter, Click clickCallback)
         {
-            var toolbarBtn = new ToolbarButton  
+            var imgBtn = new ToolbarButton  
             {
-            	tooltip = Tooltip,
+            	tooltip = tooltipGetter(),
             };
-            toolbarBtn.AddToClassList(CustomToolbarUtility.TOOLBAR_BTN_MENU_INVOKE);
+            imgBtn.AddToClassList(CustomToolbarUtility.TOOLBAR_BTN_MENU_INVOKE);
 
             var bHasTex = false;
             Texture2D tex = null;
-            if (!string.IsNullOrEmpty(TexturePath))
+            var texturePath = textureGetter();
+            if (!string.IsNullOrEmpty(texturePath))
             {
-            	tex = AssetDatabase.LoadAssetAtPath<Texture2D>(TexturePath);
+            	tex = AssetDatabase.LoadAssetAtPath<Texture2D>(texturePath);
             	if (tex == null)
             	{
             		tex = AssetDatabase.LoadAssetAtPath<Texture2D>(CustomToolbarUtility.LOST_ICON);
             	}
             	bHasTex = tex != null;
             }
-            var helpBox = new HelpBox(BtnText, HelpBoxMessageType.Info)
+
+            var btnText = textGetter();
+            var helpBox = new HelpBox(btnText, HelpBoxMessageType.Info)
             {
             	style =
             	{
-            		flexDirection = SettingDisplayType == CustomToolbarUtility.ETextTextureDisplay.TextTexture ? FlexDirection.Row : FlexDirection.RowReverse
+            		flexDirection = displayGetter() == CustomToolbarUtility.ETextTextureDisplay.TextTexture ? FlexDirection.Row : FlexDirection.RowReverse
             	}
             };
-            toolbarBtn.Add(helpBox);
+            imgBtn.Add(helpBox);
             var texFieldInHelpBox = helpBox.Children().FirstOrDefault(child => child is not Label);
             if (texFieldInHelpBox != null)
             {
@@ -44,19 +52,13 @@ namespace CustomToolbar.Editor
             	texFieldInHelpBox.style.maxWidth = bHasTex ? texFieldInHelpBox.style.maxHeight : 0;
             }
 
-            toolbarBtn.style.width = string.IsNullOrEmpty(BtnText) ? 18 : BtnText.Length * 20 + (bHasTex ? 20 : 0);
-            toolbarBtn.clicked += () =>
+            imgBtn.style.width = string.IsNullOrEmpty(btnText) ? 18 : btnText.Length * 20 + (bHasTex ? 20 : 0);
+            imgBtn.clicked += () =>
             {
-            	if (string.IsNullOrEmpty(MenuInvokePath))
-            	{
-            		CustomToolbarUtility.LogError(StrMenuNull);
-            	}
-            	else
-            	{
-            		EditorApplication.ExecuteMenuItem(MenuInvokePath);
-            		Counting();
-            	}
+	            clickCallback();
             };
+
+            return imgBtn;
         }
     }
 }
