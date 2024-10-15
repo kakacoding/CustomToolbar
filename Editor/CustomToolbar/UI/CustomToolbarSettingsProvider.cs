@@ -17,6 +17,7 @@ namespace CustomToolbar.Editor
 		private static readonly BaseToolbarElement[] ToolbarElements =
 		{
 			new ToolbarMenuInvoke(),
+			new ToolbarThirdPartyInvoke(),
 			new ToolbarSeparator(),
 			new ToolbarSides(),
 			new ToolbarSceneOpen(),

@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
@@ -12,54 +13,79 @@ namespace CustomToolbar.Editor
 	[ToolbarElementDisplay("[按钮]第三方程序调用", "在toolbar上增加一个按钮以打开第三方程序，格式为Application.dataPath的相对路径")]
 	internal class ToolbarThirdPartyInvoke : BaseToolbarElement
 	{
-		public override void Init()
-		{
-		}
-
-		public override string CountingSubKey => Path.GetFileName(relativePath);
-		[SerializeField] public string displayText = "第三方程序";
-		[SerializeField] public string relativePath;
-
-		private GUIContent content = new();
+		[JsonProperty]
+		internal CustomToolbarUtility.ETextTextureDisplay SettingDisplayType;
+		[JsonProperty]
+		internal string BtnText;
+		[JsonProperty]
+		internal string TexturePath;
+		[JsonProperty]
+		internal string ExecutePath;
+		[JsonProperty]
+		internal string Params;
+		
+		private const string StrExecutePath = "调用的程序路径";
+		private const string StrExecuteNull = "程序路径命令为空";
+		private const string StrParams = "调用参数";
+		private string Tooltip => $"调用程序 {StrExecutePath}";
+		
+		public override string CountingSubKey => Path.GetFileName(ExecutePath);
 
 		protected override void OnDrawInSettings(VisualElement container)
 		{
-			// position.x += position.width + FieldSizeSpace * 3;
-			// position.width = DefaultSectionWidth;
-			// displayText = EditorGUI.TextField(position, "按钮显示文字", displayText);
-			//
-			// position.x += position.width + FieldSizeSpace * 3;
-			// position.width = 600;
-			// relativePath = EditorGUI.TextField(position, "相对路径", relativePath);
-			// if (GUI.changed)
-			// {
-			// 	//ToolbarCallback.RefreshToolbar();
-			// }
+			base.OnDrawInSettings(container);
+
+			container.Add(TextureTextCtrl.Create(
+				()=>SettingDisplayType,
+				v=>SettingDisplayType=v,
+				()=>BtnText,
+				v=>BtnText=v,
+				()=>TexturePath,
+				v=>TexturePath=v
+			));
+
+			var txtExecutePath = new TextField(StrExecutePath)
+			{
+				value = ExecutePath
+			};
+			txtExecutePath.AddToClassList(CustomToolbarUtility.SETTING_TEXT_LARGE);
+			txtExecutePath.RegisterValueChangedCallback(evt =>
+			{
+				ExecutePath = evt.newValue;
+			});	
+			container.Add(txtExecutePath);
+			var txtParams = new TextField(StrParams)
+			{
+				value = Params
+			};
+			txtParams.AddToClassList(CustomToolbarUtility.SETTING_TEXT_SMALL);
+			txtParams.RegisterValueChangedCallback(evt =>
+			{
+				Params = evt.newValue;
+			});	
+			container.Add(txtParams);
 		}
 
 		protected override void OnDrawInToolbar(VisualElement container)
 		{
-			content.text = displayText;
-			content.tooltip = $"调用第三方程序 {relativePath}";
-			if (GUILayout.Button(content, Style))
-			{
-				var path = Path.GetFullPath(Path.Combine(Application.dataPath, relativePath));
-				if (string.IsNullOrEmpty(relativePath))
+			container.Add(ImageButtonCtrl.Create(
+				()=>SettingDisplayType,
+				()=>BtnText,
+				()=>TexturePath,
+				()=>Tooltip,
+				() =>
 				{
-					Debug.LogError($"第三方程序路径为空");
-				}
-				else if (!File.Exists(path))
-				{
-					Debug.LogError($"第三方程序路径不存在:{path}");
-				}
-				else
-				{
-#pragma warning disable 4014
-					//EditorTools.RunExeAsync(path, "",false);
-#pragma warning restore 4014
-					Counting();
-				}
-			}
+					if (string.IsNullOrEmpty(ExecutePath))
+					{
+						CustomToolbarUtility.LogError(StrExecuteNull);
+					}
+					else
+					{
+						//EditorTools.RunExeAsync(path, "",false);
+						//EditorApplication.ExecuteMenuItem(ExecutePath);
+						Counting();
+					}
+				}));
 		}
 	}
 }
