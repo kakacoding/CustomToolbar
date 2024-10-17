@@ -1,4 +1,5 @@
 #if UNITY_EDITOR && CUSTOM_TOOLBAR
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -14,13 +15,13 @@ namespace CustomToolbar.Editor
 		private SerializedObject _toolbarSettings;
 		private static ListView _toolbarListView;
 		
-		private static readonly BaseToolbarElement[] ToolbarElements =
+		private static readonly Type[] ToolbarElementTypes =
 		{
-			new ToolbarMenuInvoke(),
-			new ToolbarThirdPartyInvoke(),
-			new ToolbarSeparator(),
-			new ToolbarSides(),
-			new ToolbarSceneOpen(),
+			typeof(ToolbarMenuInvoke),
+			typeof(ToolbarThirdPartyInvoke),
+			typeof(ToolbarSeparator),
+			typeof(ToolbarSides),
+			typeof(ToolbarSceneOpen),
 		};
 		
 		private CustomToolbarSettingsProvider(string path, SettingsScope scopes = SettingsScope.User) : base(path, scopes){}
@@ -58,15 +59,15 @@ namespace CustomToolbar.Editor
 			_toolbarListView.Q<Button>("unity-list-view__add-button").clickable = new Clickable(() =>
 			{
 				var menu = new GenericMenu();
-				foreach (var toolbarElement in ToolbarElements)
+				foreach (var toolbarElementType in ToolbarElementTypes)
 				{
-					if (toolbarElement == null)
+					if (toolbarElementType == null)
 					{
 						menu.AddSeparator("");
 					}
 					else
 					{
-						var display = ToolbarElementDisplay.GetDisplay(toolbarElement.GetType());
+						var display = ToolbarElementDisplay.GetDisplay(toolbarElementType);
 						menu.AddItem(new GUIContent(display), false, target =>
 						{
 							if (target is ToolbarSceneSelection selection)
@@ -77,7 +78,7 @@ namespace CustomToolbar.Editor
 							var idx = _toolbarListView.selectedIndex == -1 ? 0 : _toolbarListView.selectedIndex + 1;
 							CustomToolbarConfig.Instance.Elements.Insert(idx, target as BaseToolbarElement);
 							_toolbarListView.Rebuild();
-						}, toolbarElement);
+						}, Activator.CreateInstance(toolbarElementType));
 					}
 				}
 

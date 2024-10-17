@@ -22,7 +22,7 @@ namespace CustomToolbar.Editor
 
 		internal override GUIStyle Style
 		{
-			get => _style ??= new GUIStyle(CustomToolbarUtility_Styles.DropDownStyle);
+			get => _style ??= new GUIStyle(CustomToolbarUtility.DropDownStyle);
 			set { }
 		}
 
@@ -60,7 +60,7 @@ namespace CustomToolbar.Editor
 		private void DrawSceneDropdown()
 		{
 			_selectedSceneIndex = EditorGUILayout.Popup(_selectedSceneIndex,
-				_scenesPopupDisplay.Select(e => e.popupDisplay).ToArray(), CustomToolbarUtility_Styles.DropDownStyle);
+				_scenesPopupDisplay.Select(e => e.popupDisplay).ToArray(), CustomToolbarUtility.DropDownStyle);
 			if (GUI.changed && 0 <= _selectedSceneIndex && _selectedSceneIndex < _scenesPopupDisplay.Length)
 			{
 				if (!EditorApplication.isPlaying && EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())

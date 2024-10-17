@@ -26,7 +26,7 @@ namespace CustomToolbar.Editor
 
 		internal virtual GUIStyle Style
 		{
-			get => _style ??= new GUIStyle(CustomToolbarUtility_Styles.CommandStyle);
+			get => _style ??= new GUIStyle(CustomToolbarUtility.CommandStyle);
 			set => _style = value;
 		}
 		

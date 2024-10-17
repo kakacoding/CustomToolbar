@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace CustomToolbar.Editor
 {
-    internal static class CustomToolbarUtility
+    internal static partial class CustomToolbarUtility
     {
         internal static void LogError(string log)
         {
@@ -42,15 +42,7 @@ namespace CustomToolbar.Editor
             { ETextTextureDisplay.TextTexture, "左字右图" },
         };
 
-        #region Styles
-        internal const string SETTING_TOGGLE = "setting-toggle";
-        internal const string TOOLBAR_BTN_MENU_INVOKE = "toolbar-btn-menu-invoke";
-        internal const string SETTING_TEXT_MIN = "setting-text-min";
-        internal const string SETTING_TEXT_SMALL = "setting-text-small";
-        internal const string SETTING_TEXT_LARGE = "setting-text-large";
-        internal const string SETTING_TEXT_TEXTURE_ENUM = "setting-text-texture-enum";
-        internal const string SETTING_TEXTURE_MIN = "setting-texture-min";
-        #endregion
+        
 
         public const string LOST_ICON = "Packages/com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_secondarytabclosehover@2x.png";
     }

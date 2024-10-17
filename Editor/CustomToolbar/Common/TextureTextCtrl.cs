@@ -20,20 +20,9 @@ namespace CustomToolbar.Editor
         internal static VisualElement Create(DisplayGetter displayGetter, DisplaySetter displaySetter, 
             TextGetter textGetter, TextSetter textSetter, TextureGetter textureGetter, TextureSetter textureSetter)
         {
-            var container = new VisualElement
-            {
-                style =
-                {
-                    flexDirection = FlexDirection.Row,
-                    alignContent = Align.FlexStart,
-                    alignItems = Align.Center,
-                    width = StyleKeyword.Auto,
-                    paddingBottom = 0,
-                    paddingTop =0,
-                    paddingLeft = 0,
-                    paddingRight = 0,
-                }
-            };
+            var container = new VisualElement();
+            container.AddToClassList(CustomToolbarUtility.SETTING_TEXTURE_TEXT_CTRL);
+            
             var enumField = new EnumField(CustomToolbarUtility.TTDisplayMap[CustomToolbarUtility.ETextTextureDisplay.TextureText], CustomToolbarUtility.ETextTextureDisplay.TextureText);
             enumField.RegisterValueChangedCallback(evt =>
             {
@@ -41,30 +30,18 @@ namespace CustomToolbar.Editor
                 displaySetter(newValue);
                 enumField.label = CustomToolbarUtility.TTDisplayMap[newValue];
                 
-                var subContainer = container.Children().FirstOrDefault(child => child.name.Equals("subContainer"));
-                if (subContainer != null)
+                var ttContainer = container.Children().FirstOrDefault(child => child.name.Equals("ttContainer"));
+                if (ttContainer != null)
                 {
-                    subContainer.style.flexDirection = displayGetter() == CustomToolbarUtility.ETextTextureDisplay.TextureText ? FlexDirection.Row : FlexDirection.RowReverse;
+                    ttContainer.style.flexDirection = displayGetter() == CustomToolbarUtility.ETextTextureDisplay.TextureText ? FlexDirection.Row : FlexDirection.RowReverse;
                 }
             });
             enumField.AddToClassList(CustomToolbarUtility.SETTING_TEXT_TEXTURE_ENUM);
             container.Add(enumField);
-            
-            var subContainer = new VisualElement
-            {
-                name = "subContainer",
-                style =
-                {
-                    flexDirection = FlexDirection.Row,
-                    alignContent = Align.Center,
-                    alignItems = Align.Center,
-                    width = StyleKeyword.Auto,
-                    paddingBottom = 0,
-                    paddingTop = 0,
-                    paddingLeft = 0,
-                    paddingRight = 0,
-                }
-            };
+
+            var ttContainer = new VisualElement();
+            ttContainer.name = "ttContainer";
+            ttContainer.AddToClassList(CustomToolbarUtility.SETTING_TT_CONTAINER);
             
             var objField = new ObjectField
             {
@@ -76,7 +53,7 @@ namespace CustomToolbar.Editor
             {
                 textureSetter(evt.newValue != null ? AssetDatabase.GetAssetPath(evt.newValue) : "");
             });
-            subContainer.Add(objField);
+            ttContainer.Add(objField);
             
             var txtBtnText = new TextField
             {
@@ -87,9 +64,9 @@ namespace CustomToolbar.Editor
             {
                 textSetter(evt.newValue);
             });
-            subContainer.Add(txtBtnText);
+            ttContainer.Add(txtBtnText);
             
-            container.Add(subContainer);
+            container.Add(ttContainer);
             return container;
         }
     }

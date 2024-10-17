@@ -24,7 +24,7 @@ namespace CustomToolbar.Editor
 
 		internal override GUIStyle Style
 		{
-			get => _style ??= new GUIStyle(CustomToolbarUtility_Styles.CommandStyle)
+			get => _style ??= new GUIStyle(CustomToolbarUtility.CommandStyle)
 			{
 				fixedWidth = 40,
 				stretchWidth = false,

@@ -4,8 +4,21 @@ using UnityEngine;
 
 namespace CustomToolbar.Editor
 {
-    static class CustomToolbarUtility_Styles
+    internal static partial class CustomToolbarUtility
     {
+        #region Styles
+        internal const string SETTING_TOGGLE = "setting-toggle";
+        internal const string SETTING_TEXTURE_TEXT_CTRL = "setting-texture-text-ctrl";
+        internal const string SETTING_TT_CONTAINER = "setting-tt-container";
+        
+        internal const string TOOLBAR_BTN_MENU_INVOKE = "toolbar-btn-menu-invoke";
+        internal const string SETTING_TEXT_MIN = "setting-text-min";
+        internal const string SETTING_TEXT_SMALL = "setting-text-small";
+        internal const string SETTING_TEXT_LARGE = "setting-text-large";
+        internal const string SETTING_TEXT_TEXTURE_ENUM = "setting-text-texture-enum";
+        internal const string SETTING_TEXTURE_MIN = "setting-texture-min";
+        #endregion
+        
         public static readonly GUIStyle DropDownStyle = new("DropDown")
         {
             fontSize = 12,

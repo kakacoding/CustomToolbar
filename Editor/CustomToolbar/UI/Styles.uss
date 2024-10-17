@@ -71,9 +71,35 @@
     -unity-font-style: bold;
 }
 
+.setting-texture-text-ctrl{
+    flex-direction: row;
+    align-content: flex-start;
+    align-items: center;
+    width: auto;
+    padding: 0;
+}
+.setting-texture-text-ctrl .setting-text-texture-enum {
+    width: 155px
+}
+.setting-texture-text-ctrl .setting-tt-container {
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    width: auto;
+    padding: 0;
+}
+.setting-text-texture-enum .unity-label {
+    margin-top: -2px;
+    min-width: 55px;
+    max-width: 55px;
+}
+.setting-texture-min {
+    width: 145px;
+}
 .setting-text-min {
     width: 100px;
 }
+
 
 .setting-text-small {
     margin-left: auto;
@@ -95,19 +121,9 @@
     max-width: 90px;
 }
 
-.setting-texture-min {
-    width: 100px;
-}
 
 .setting-text-separator-px {
     width: 300px;
 }
 
-.setting-text-texture-enum {
-    width: 150px
-}
-.setting-text-texture-enum .unity-label {
-    margin-top: -2px;
-    min-width: 55px;
-    max-width: 55px;
-}
+
