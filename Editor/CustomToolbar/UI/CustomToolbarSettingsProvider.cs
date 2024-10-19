@@ -1,5 +1,6 @@
 #if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor;
@@ -68,17 +69,24 @@ namespace CustomToolbar.Editor
 					else
 					{
 						var display = ToolbarElementDisplay.GetDisplay(toolbarElementType);
-						menu.AddItem(new GUIContent(display), false, target =>
+						if (IsToolbarElementValid(toolbarElementType))
 						{
-							if (target is ToolbarSceneSelection selection)
+							menu.AddItem(new GUIContent(display), false, target =>
 							{
-								selection.Init();
-							}
+								if (target is ToolbarSceneSelection selection)
+								{
+									selection.Init();
+								}
 
-							var idx = _toolbarListView.selectedIndex == -1 ? 0 : _toolbarListView.selectedIndex + 1;
-							CustomToolbarConfig.Instance.Elements.Insert(idx, target as BaseToolbarElement);
-							_toolbarListView.Rebuild();
-						}, Activator.CreateInstance(toolbarElementType));
+								var idx = _toolbarListView.selectedIndex == -1 ? 0 : _toolbarListView.selectedIndex + 1;
+								CustomToolbarConfig.Instance.Elements.Insert(idx, target as BaseToolbarElement);
+								_toolbarListView.Rebuild();
+							}, Activator.CreateInstance(toolbarElementType));
+						}
+						else
+						{
+							menu.AddDisabledItem(new GUIContent(display), false);
+						}
 					}
 				}
 
@@ -88,6 +96,14 @@ namespace CustomToolbar.Editor
 			sv.Add(_toolbarListView);
 			var btnApply = rootElement.Q<Button>("btnApply");
 			btnApply.clicked += () => { CustomToolbarConfig.Instance.Save(); };
+		}
+
+		internal static bool IsToolbarElementValid(Type t)
+		{
+			var methodInfo = t.GetMethod("IsValid", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+			if (methodInfo == null) return true;
+			var result = methodInfo.Invoke(null, null);
+			return (bool)result;
 		}
 	}
 }
