@@ -35,6 +35,7 @@ namespace CustomToolbar.Editor
                 {
                     textureTextContainer.style.flexDirection = displayGetter() == CustomToolbarUtility.ETextTextureDisplay.TextureText ? FlexDirection.Row : FlexDirection.RowReverse;
                 }
+                ToolbarExtender.Reload();
             });
             container.Add(enumField);
 
@@ -51,6 +52,7 @@ namespace CustomToolbar.Editor
             objField.RegisterValueChangedCallback(evt =>
             {
                 textureSetter(evt.newValue != null ? AssetDatabase.GetAssetPath(evt.newValue) : "");
+                ToolbarExtender.Reload();
             });
             textureTextContainer.Add(objField);
             
@@ -61,6 +63,7 @@ namespace CustomToolbar.Editor
             txtBtnText.RegisterValueChangedCallback(evt =>
             {
                 textSetter(evt.newValue);
+                ToolbarExtender.Reload();
             });
             textureTextContainer.Add(txtBtnText);
             

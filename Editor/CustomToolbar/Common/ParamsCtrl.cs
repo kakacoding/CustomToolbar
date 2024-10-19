@@ -18,6 +18,7 @@ namespace CustomToolbar.Editor
             textField.RegisterValueChangedCallback(evt =>
             {
                 textSetter(evt.newValue);
+                ToolbarExtender.Reload();
             });
             
             return textField;

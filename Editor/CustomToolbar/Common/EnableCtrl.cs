@@ -19,6 +19,7 @@ namespace CustomToolbar.Editor
             toggleBtn.RegisterValueChangedCallback(evt =>
             {
                 toggleSetter.Invoke(evt.newValue);
+                ToolbarExtender.Reload();
             });
             
             return toggleBtn;
