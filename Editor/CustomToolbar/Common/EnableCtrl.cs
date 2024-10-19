@@ -1,0 +1,27 @@
+﻿using UnityEngine.UIElements;
+
+namespace CustomToolbar.Editor
+{
+    internal class EnableCtrl : VisualElement
+    {
+        internal delegate string LabelGetter();
+        internal delegate bool ToggleGetter();
+        internal delegate void ToggleSetter(bool value);
+        
+        internal static VisualElement Create(LabelGetter labelGetter, ToggleGetter toggleGetter, ToggleSetter toggleSetter)
+        {
+            var toggleBtn = new Toggle
+            {
+                name = nameof(EnableCtrl),
+                value = toggleGetter.Invoke(),
+                label = labelGetter.Invoke()
+            };
+            toggleBtn.RegisterValueChangedCallback(evt =>
+            {
+                toggleSetter.Invoke(evt.newValue);
+            });
+            
+            return toggleBtn;
+        }
+    }
+}

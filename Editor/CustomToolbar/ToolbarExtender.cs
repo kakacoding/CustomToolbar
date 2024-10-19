@@ -12,7 +12,6 @@ namespace CustomToolbar.Editor
 	internal static class ToolbarExtender
 	{
 		private static readonly Type ToolbarType = typeof(UnityEditor.Editor).Assembly.GetType("UnityEditor.Toolbar");
-		private const string STYLES = "Packages/com.kakacoding.customtoolbar/Editor/CustomToolbar/UI/Styles.uss";
 		private static ScriptableObject CurrentToolbar { get; set; }
 		private static VisualElement LeftZoneContainer { get; set; }
 		private static VisualElement RightZoneContainer { get; set; }
@@ -35,13 +34,9 @@ namespace CustomToolbar.Editor
 			if (CurrentToolbar == null) return;
 			
 			var root = (VisualElement)CurrentToolbar.GetType().GetField("m_Root", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(CurrentToolbar);
-			if (root != null && File.Exists(STYLES))
-			{
-				root.styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(STYLES));	
-			}
-			
-			LeftZoneContainer = GetOrCreateToolbarZoneContainer(root, "ToolbarZoneLeftAlign", "toolbar-left-zone"); 
-			RightZoneContainer = GetOrCreateToolbarZoneContainer(root, "ToolbarZoneRightAlign", "toolbar-right-zone");
+			CustomToolbarUtility.AttachStyles(root);
+			LeftZoneContainer = GetOrCreateToolbarZoneContainer(root, "ToolbarZoneLeftAlign", "ToolbarLeftZone"); 
+			RightZoneContainer = GetOrCreateToolbarZoneContainer(root, "ToolbarZoneRightAlign", "ToolbarRightZone");
 			Reload();
 		}
 
@@ -55,15 +50,10 @@ namespace CustomToolbar.Editor
 		private static VisualElement GetOrCreateToolbarZoneContainer(VisualElement root, string zoneName, string containerName)
 		{
 			var zone = root.Q(zoneName);
-			var container = zone.Q(containerName);
-			if (container == null)
+			var container = zone.Q(containerName) ?? new VisualElement
 			{
-				container = new VisualElement
-				{
-					name = containerName
-				};
-				container.AddToClassList(containerName);
-			}
+				name = containerName
+			};
 			zone.Add(container);
 			return container;
 		}

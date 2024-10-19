@@ -18,9 +18,9 @@ namespace CustomToolbar.Editor
         {
             var imgBtn = new ToolbarButton  
             {
+	            name = nameof(ImageButtonCtrl),
             	tooltip = tooltipGetter(),
             };
-            imgBtn.AddToClassList(CustomToolbarUtility.TOOLBAR_BTN_MENU_INVOKE);
 
             var bHasTex = false;
             Texture2D tex = null;

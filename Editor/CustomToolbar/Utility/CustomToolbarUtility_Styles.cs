@@ -1,23 +1,32 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace CustomToolbar.Editor
 {
     internal static partial class CustomToolbarUtility
     {
-        #region Styles
-        internal const string SETTING_TOGGLE = "setting-toggle";
-        internal const string SETTING_TEXTURE_TEXT_CTRL = "setting-texture-text-ctrl";
-        internal const string SETTING_TT_CONTAINER = "setting-tt-container";
-        
-        internal const string TOOLBAR_BTN_MENU_INVOKE = "toolbar-btn-menu-invoke";
-        internal const string SETTING_TEXT_MIN = "setting-text-min";
-        internal const string SETTING_TEXT_SMALL = "setting-text-small";
-        internal const string SETTING_TEXT_LARGE = "setting-text-large";
-        internal const string SETTING_TEXT_TEXTURE_ENUM = "setting-text-texture-enum";
-        internal const string SETTING_TEXTURE_MIN = "setting-texture-min";
-        #endregion
+        private const string PACKAGE_NAME = "com.kakacoding.customtoolbar";
+        private static readonly List<string> StyleFiles = new() {$"Packages/{PACKAGE_NAME}/Editor/CustomToolbar/UI/Styles.uss"};
+
+        internal static void AttachStyles(VisualElement visualElement)
+        {
+            if (visualElement == null) return;
+            StyleFiles.ForEach(styleFile =>
+            {
+                if (!File.Exists(styleFile)) return;
+                var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(styleFile);
+                if (styleSheet != null)
+                {
+                    visualElement.styleSheets.Add(styleSheet);         
+                }
+            });
+        }
         
         public static readonly GUIStyle DropDownStyle = new("DropDown")
         {

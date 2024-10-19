@@ -44,17 +44,11 @@ namespace CustomToolbar.Editor
 		protected virtual void OnDrawInSettings(VisualElement container)
 		{
 			container.Clear();
-			var toggleBtn = new Toggle
-			{
-				value = IsEnabled,
-				label = ToolbarElementDisplay.GetDisplay(GetType())
-			};
-			toggleBtn.AddToClassList(CustomToolbarUtility.SETTING_TOGGLE);
-			toggleBtn.RegisterValueChangedCallback(evt =>
-			{
-				IsEnabled = evt.newValue;
-			});
-			container.Add(toggleBtn);
+			container.Add(EnableCtrl.Create(
+				()=>ToolbarElementDisplay.GetDisplay(GetType()),
+				()=>IsEnabled,
+				v=>IsEnabled=v
+				));
 		}
 
 		protected virtual void OnDrawInToolbar(VisualElement container)

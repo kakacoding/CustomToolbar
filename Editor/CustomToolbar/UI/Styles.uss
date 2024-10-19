@@ -1,12 +1,12 @@
-.toolbar-left-zone {
-    display: flex;
+/* toolbar style */
+#ToolbarLeftZone {
     flex-grow: 1;
     justify-content: flex-end;
     align-items: flex-end;
     flex-direction: row;
 }
 
-.toolbar-right-zone {
+#ToolbarRightZone {
     display: flex;
     flex-grow: 1;
     justify-content: flex-start;
@@ -14,7 +14,7 @@
     flex-direction: row;
 }
 
-.toolbar-btn-menu-invoke {
+#ImageButtonCtrl{
     height: 20px;
     width: 26px;
     padding: 0;
@@ -23,7 +23,7 @@
     -unity-text-align: middle-center;
 }
 
-.toolbar-btn-menu-invoke .unity-help-box {
+#ImageButtonCtrl .unity-help-box {
     background-color: rgba(63,63,63,0);
     border-bottom-color: rgba(63,63,63,0);
     border-top-color: rgba(63,63,63,0);
@@ -32,19 +32,26 @@
     padding: 0;
 }
 
-.toolbar-btn-menu-invoke .unity-help-box .unity-help-box__label{
+#ImageButtonCtrl .unity-help-box .unity-help-box__label{
    font-size: 12;
     -unity-font-style: bold;
 }
 
-.toolbar-btn-menu-invoke .unity-help-box .unity-help-box__icon {
+#ImageButtonCtrl .unity-help-box .unity-help-box__icon {
     min-width: 16px;
     max-width: 16px;
     min-height: 16px;
     max-height: 16px;
 }
 
-.setting-horizontal-panel {
+/************************* 分隔 ***************************/
+
+/* setting style */
+#ToolbarSettingListView {
+    flex-direction: column;
+}
+
+#ToolbarSettingRecordContainer {
     flex-direction: row;
     align-content: flex-start;
     align-items: center;
@@ -54,76 +61,60 @@
     max-height:20px;
 }
 
-.setting-listview {
-    flex-direction: column;
-}
-
-.setting-toggle {
+#EnableCtrl {
     flex-direction: row-reverse;
     width: 170px;
 }
 
-.setting-toggle .unity-toggle__input{
+#EnableCtrl .unity-toggle__input{
     margin-top: 2px;
 }
 
-.setting-toggle .unity-toggle__label{
+#EnableCtrl .unity-toggle__label{
     -unity-font-style: bold;
 }
 
-.setting-texture-text-ctrl{
+#TextureTextCtrl{
+    margin-left: 10px;
     flex-direction: row;
     align-content: flex-start;
     align-items: center;
     width: auto;
-    padding: 0;
 }
-.setting-texture-text-ctrl .setting-text-texture-enum {
+#TextureTextCtrl .unity-enum-field {
+    margin-left: 0;
     width: 155px
 }
-.setting-texture-text-ctrl .setting-tt-container {
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    width: auto;
-    padding: 0;
+#TextureTextCtrl .unity-enum-field .unity-label {
+    min-width: auto;
+    margin-top: -2px;
+    margin-right: 6px;
 }
-.setting-text-texture-enum .unity-label {
+#TextureTextCtrl #TextureTextContainer {
+    flex-direction: row;
+}
+#TextureTextCtrl #TextureTextContainer .unity-object-field{
+    width: 145px;
+}
+#TextureTextCtrl #TextureTextContainer .unity-text-field{
+    width: 100px;
+}
+
+#PathCtrl {
+    margin-left: 10px;
+    width: 600px;
+}
+#PathCtrl .unity-label {
+    margin-top: -2px;
+    min-width: 90px;
+    max-width: 90px;
+}
+#ParamsCtrl {
+    margin-left: 10px;
+    width: 306px;
+}
+#ParamsCtrl .unity-label {
     margin-top: -2px;
     min-width: 55px;
     max-width: 55px;
 }
-.setting-texture-min {
-    width: 145px;
-}
-.setting-text-min {
-    width: 100px;
-}
-
-
-.setting-text-small {
-    margin-left: auto;
-    width: 300px;
-}
-.setting-text-small .unity-label {
-    margin-top: -2px;
-    min-width: 90px;
-    max-width: 90px;
-}
-
-.setting-text-large {
-    margin-left: auto;
-    width: 600px;
-}
-.setting-text-large .unity-label {
-    margin-top: -2px;
-    min-width: 90px;
-    max-width: 90px;
-}
-
-
-.setting-text-separator-px {
-    width: 300px;
-}
-
-

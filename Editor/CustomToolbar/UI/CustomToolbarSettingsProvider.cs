@@ -10,8 +10,6 @@ namespace CustomToolbar.Editor
 	{
 		private const string UXML = "Packages/com.kakacoding.customtoolbar/Editor/CustomToolbar/UI/ProviderSettings.uxml";
 		private const string SETTING_PROVIDER_PATH = "Project/CustomToolbar";
-		private const string SETTING_HORIZONTAL_PANEL = "setting-horizontal-panel";
-		private const string SETTING_LISTVIEW = "setting-listview";
 		private SerializedObject _toolbarSettings;
 		private static ListView _toolbarListView;
 		
@@ -40,11 +38,14 @@ namespace CustomToolbar.Editor
 			var window = EditorGUIUtility.Load(UXML) as VisualTreeAsset;
 			if (window == null) return;
 			window.CloneTree(rootElement);
+			CustomToolbarUtility.AttachStyles(rootElement);
 			var sv = rootElement.Q<ScrollView>("toolbarScrollView");
 			_toolbarListView = new ListView(CustomToolbarConfig.Instance.Elements, 20, () =>
 			{
-				var container = new VisualElement();
-				container.AddToClassList(SETTING_HORIZONTAL_PANEL);
+				var container = new VisualElement
+				{
+					name = "ToolbarSettingRecordContainer"
+				};
 				return container;
 			}, (container, i) =>
 			{
@@ -52,9 +53,8 @@ namespace CustomToolbar.Editor
 				{
 					CustomToolbarConfig.Instance.Elements[i].DrawInSettings(container);
 				}
-			}) { name = "lv", showAddRemoveFooter = true, reorderMode = ListViewReorderMode.Animated, reorderable = true, };
+			}) { name = "ToolbarSettingListView", showAddRemoveFooter = true, reorderMode = ListViewReorderMode.Animated, reorderable = true, };
 			
-			_toolbarListView.AddToClassList(SETTING_LISTVIEW);
 			_toolbarListView.itemsRemoved += _ => { _toolbarListView.Rebuild(); };
 			_toolbarListView.Q<Button>("unity-list-view__add-button").clickable = new Clickable(() =>
 			{

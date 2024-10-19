@@ -13,27 +13,22 @@ namespace CustomToolbar.Editor
 		internal int SeparatorPx = DefaultPx;
 		internal const int DefaultPx = 5;
 		
-		private const string StrShow = "间隔像素值px";
-		private const string SETTING_SEPARATOR_PX = "setting-text-separator-px";
+		private const string StrShow = "间隔像素";
 		
 		protected override void OnDrawInSettings(VisualElement container)
 		{
 			base.OnDrawInSettings(container);
 			
-			var txtShow = new TextField
-			{
-				label = StrShow,
-				value = SeparatorPx.ToString(),
-			};
-			txtShow.AddToClassList(SETTING_SEPARATOR_PX);
-			txtShow.RegisterValueChangedCallback(evt =>
-			{
-				if (!int.TryParse(evt.newValue, out SeparatorPx))
+			container.Add(ParamsCtrl.Create(
+				()=>StrShow,
+				()=>SeparatorPx.ToString(),
+				v=>
 				{
-					SeparatorPx = DefaultPx;
-				}
-			});
-			container.Add(txtShow);
+					if (!int.TryParse(v, out SeparatorPx))
+					{
+						SeparatorPx = DefaultPx;
+					}
+				}));
 		}
 
 		protected override void OnDrawInToolbar(VisualElement container)

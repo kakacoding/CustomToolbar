@@ -1,13 +1,8 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
-using UnityEngine.Windows;
 
 namespace CustomToolbar.Editor
 {
@@ -58,16 +53,11 @@ namespace CustomToolbar.Editor
 				v=>TexturePath=v
 				));
 
-			var txtMenuPath = new TextField(StrMenuPath)
-			{
-				value = MenuInvokePath
-			};
-			txtMenuPath.AddToClassList(CustomToolbarUtility.SETTING_TEXT_LARGE);
-			txtMenuPath.RegisterValueChangedCallback(evt =>
-			{
-				MenuInvokePath = evt.newValue;
-			});			
-			container.Add(txtMenuPath);
+			container.Add(PathCtrl.Create(
+				()=>StrMenuPath,
+				()=>MenuInvokePath,
+				v=>MenuInvokePath=v
+			));
 		}
 
 		protected override void OnDrawInToolbar(VisualElement container)

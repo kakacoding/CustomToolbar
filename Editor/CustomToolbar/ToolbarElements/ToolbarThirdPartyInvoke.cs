@@ -2,10 +2,7 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
-using UnityEngine;
-using UnityEditor;
 using UnityEngine.UIElements;
-using Debug = UnityEngine.Debug;
 
 namespace CustomToolbar.Editor
 {
@@ -44,26 +41,17 @@ namespace CustomToolbar.Editor
 				v=>TexturePath=v
 			));
 
-			var txtExecutePath = new TextField(StrExecutePath)
-			{
-				value = ExecutePath
-			};
-			txtExecutePath.AddToClassList(CustomToolbarUtility.SETTING_TEXT_LARGE);
-			txtExecutePath.RegisterValueChangedCallback(evt =>
-			{
-				ExecutePath = evt.newValue;
-			});	
-			container.Add(txtExecutePath);
-			var txtParams = new TextField(StrParams)
-			{
-				value = Params
-			};
-			txtParams.AddToClassList(CustomToolbarUtility.SETTING_TEXT_SMALL);
-			txtParams.RegisterValueChangedCallback(evt =>
-			{
-				Params = evt.newValue;
-			});	
-			container.Add(txtParams);
+			container.Add(PathCtrl.Create(
+				()=>StrExecutePath,
+				()=>ExecutePath,
+				v=>ExecutePath=v
+			));
+			
+			container.Add(ParamsCtrl.Create(
+				()=>StrParams,
+				()=>Params,
+				v=>Params=v
+			));
 		}
 
 		protected override void OnDrawInToolbar(VisualElement container)
