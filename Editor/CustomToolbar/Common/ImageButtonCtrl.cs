@@ -52,7 +52,6 @@ namespace CustomToolbar.Editor
             	texFieldInHelpBox.style.maxWidth = bHasTex ? texFieldInHelpBox.style.maxHeight : 0;
             }
 
-            imgBtn.style.width = string.IsNullOrEmpty(btnText) ? 18 : btnText.Length * 20 + (bHasTex ? 20 : 0);
             imgBtn.clicked += () =>
             {
 	            clickCallback();

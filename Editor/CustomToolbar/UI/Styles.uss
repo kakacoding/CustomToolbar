@@ -16,7 +16,6 @@
 
 #ImageButtonCtrl{
     height: 20px;
-    width: 26px;
     padding: 0;
     font-size: 15px;
     flex-shrink: 0;
@@ -24,6 +23,7 @@
 }
 
 #ImageButtonCtrl .unity-help-box {
+    flex-shrink: 0;
     background-color: rgba(63,63,63,0);
     border-bottom-color: rgba(63,63,63,0);
     border-top-color: rgba(63,63,63,0);
@@ -33,11 +33,16 @@
 }
 
 #ImageButtonCtrl .unity-help-box .unity-help-box__label{
-   font-size: 12;
+    flex-shrink: 0;
+    padding: 0;
+    margin-left: 2;
+    margin-right: 2;
+    font-size: 12;
     -unity-font-style: bold;
 }
 
 #ImageButtonCtrl .unity-help-box .unity-help-box__icon {
+    flex-shrink: 0;
     min-width: 16px;
     max-width: 16px;
     min-height: 16px;
