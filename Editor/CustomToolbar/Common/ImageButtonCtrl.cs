@@ -12,9 +12,9 @@ namespace CustomToolbar.Editor
 	    internal delegate string TextGetter();
 	    internal delegate string TextureGetter();
 	    internal delegate string TooltipGetter();
-	    
 	    internal delegate void Click();
-        internal static VisualElement Create(DisplayGetter displayGetter, TextGetter textGetter, TextureGetter textureGetter, TooltipGetter tooltipGetter, Click clickCallback)
+
+        internal static VisualElement Create(DisplayGetter displayGetter, TextGetter textGetter, TextureGetter textureGetter, TooltipGetter tooltipGetter, Click onClick)
         {
             var imgBtn = new ToolbarButton  
             {
@@ -54,7 +54,7 @@ namespace CustomToolbar.Editor
 
             imgBtn.clicked += () =>
             {
-	            clickCallback();
+	            onClick();
             };
 
             return imgBtn;

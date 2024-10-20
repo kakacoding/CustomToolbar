@@ -21,6 +21,7 @@ namespace CustomToolbar.Editor
 			typeof(ToolbarSeparator),
 			typeof(ToolbarSides),
 			typeof(ToolbarSceneOpen),
+			typeof(ToolbarWorkspace),
 		};
 		
 		private CustomToolbarSettingsProvider(string path, SettingsScope scopes = SettingsScope.User) : base(path, scopes){}
@@ -55,7 +56,11 @@ namespace CustomToolbar.Editor
 					CustomToolbarConfig.Instance.Elements[i].DrawInSettings(container);
 				}
 			}) { name = "ToolbarSettingListView", showAddRemoveFooter = true, reorderMode = ListViewReorderMode.Animated, reorderable = true, };
-			
+
+			_toolbarListView.itemIndexChanged += (_, _) =>
+			{
+				ToolbarExtender.Reload();
+			};
 			_toolbarListView.itemsRemoved += _ => { _toolbarListView.Rebuild(); };
 			_toolbarListView.Q<Button>("unity-list-view__add-button").clickable = new Clickable(() =>
 			{

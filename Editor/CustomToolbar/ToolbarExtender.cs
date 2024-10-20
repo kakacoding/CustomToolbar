@@ -27,7 +27,11 @@ namespace CustomToolbar.Editor
 		}
 		private static void OnUpdate()
 		{
-			if (CurrentToolbar != null) return;
+			if (CurrentToolbar != null)
+			{
+				_config?.Elements.ForEach(element => element.OnUpdate());
+				return;
+			}
 			
 			var toolbars = Resources.FindObjectsOfTypeAll(ToolbarType);
 			CurrentToolbar = toolbars.Length > 0 ? (ScriptableObject) toolbars[0] : null;

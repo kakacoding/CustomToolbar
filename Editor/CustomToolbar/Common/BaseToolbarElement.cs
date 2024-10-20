@@ -55,6 +55,10 @@ namespace CustomToolbar.Editor
 		{
 		}
 
+		internal virtual void OnUpdate()
+		{
+		}
+
 		protected void Counting()
 		{
 			// var subKey = CountingSubKey;

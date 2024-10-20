@@ -53,6 +53,28 @@ namespace CustomToolbar.Editor
 
 		protected override void OnDrawInToolbar(VisualElement container)
 		{
+			
+			// 遍历所有已加载的程序集
+			// foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+			// {
+			// 	// 查找是否存在 AkSoundEngine 类
+			// 	Type akSoundEngineType = assembly.GetType("AkSoundEngine");
+			// 	if (akSoundEngineType != null)
+			// 	{
+			// 		found = true;
+			// 		break;
+			// 	}
+			// }
+			//
+			// if (found)
+			// {
+			// 	Debug.Log("AkSoundEngine 类存在于项目中。");
+			// }
+			// else
+			// {
+			// 	Debug.Log("AkSoundEngine 类未找到。");
+			// }
+			//
 			if (!_inited && EditorApplication.isPlaying)
 			{
 				//AkSoundEngine.PostEvent(_mute == 1 ? "Minimize" : "Maximize", null);

@@ -13,59 +13,103 @@ namespace CustomToolbar.Editor
 	[ToolbarElementDisplay("[按钮]P4Workspace", "显示对应的Perforce的Workspace，没有设置时点击可以打开设置界面")]
 	internal class ToolbarWorkspace : BaseToolbarElement
 	{
-		public override void Init()
+		internal override void OnUpdate()
 		{
+			//instance.
+			//instance?.tooltip
 		}
 
-		protected override void OnDrawInSettings(VisualElement container)
+		private string _textGetter()
 		{
-		}
-
-		private GUIContent _unConfigBtn;
-		private GUIContent UnConfigBtn => _unConfigBtn ??= new GUIContent("未配置P4", "点击开启配置窗口");
-		private GUIContent ConfigBtn = new();
-
-		protected override void OnDrawInToolbar(VisualElement container)
-		{
-			//EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying);
 			var workspace = EditorUserSettings.GetConfigValue("vcPerforceWorkspace");
-			if (!string.IsNullOrEmpty(workspace))
-			{
-				var bk = GUI.color;
-				GUI.color = Provider.onlineState != OnlineState.Offline ? Color.green : Color.red;
-				var tooltip = $@"点击本按钮 强制重连P4
+			return string.IsNullOrEmpty(workspace) ? "未配置P4" : workspace+ (Provider.onlineState != OnlineState.Offline ? "-on" : "-off");
+		}
+
+		private string _tooltipGetter()
+		{
+			var workspace = EditorUserSettings.GetConfigValue("vcPerforceWorkspace");
+			return string.IsNullOrEmpty(workspace) ? "点击开启配置窗口" : $@"点击本按钮 强制重连P4
 红色表示P4 Disconnect
 绿色表示P4 Connect
 workspace路径:{Application.dataPath}";
-				ConfigBtn.text = workspace;
-				ConfigBtn.tooltip = tooltip;
-				if (GUILayout.Button(ConfigBtn, Style))
-				{
-					Provider.UpdateSettings();
-				}
+		}
 
-				GUI.color = bk;
+		private void _onClick()
+		{
+			var workspace = EditorUserSettings.GetConfigValue("vcPerforceWorkspace");
+			if (string.IsNullOrEmpty(workspace))
+			{
+				var assembly = Assembly.GetAssembly(typeof(EditorWindow));
+				var t = assembly.GetType("UnityEditor.SettingsWindow");
+				var obj = ScriptableObject.CreateInstance(t);
+				t.GetMethod("Show", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(obj, new object[] { SettingsScope.Project, "Project/Version Control" });
 			}
 			else
 			{
-				var bk = GUI.color;
-				GUI.color = Color.red;
-				if (GUILayout.Button(UnConfigBtn, Style))
-				{
-					Assembly assembly = Assembly.GetAssembly(typeof(EditorWindow));
-					var t = assembly.GetType("UnityEditor.SettingsWindow");
-					var obj = ScriptableObject.CreateInstance(t);
-#if UNITY_2021_1_OR_NEWER
-					t.GetMethod("Show", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(obj,
-						new object[] { SettingsScope.Project, "Project/Version Control" });
-#else
-				t.GetMethod("Show", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(obj, new object[] { SettingsScope.Project, "Project/Editor" });
-#endif
-				}
-
-				GUI.color = bk;
+				Provider.UpdateSettings();
 			}
-			//EditorGUI.EndDisabledGroup();
+			Counting();	
+			Refresh();
+		}
+
+		private VisualElement SubContainer => _subContainer ??= new VisualElement();
+
+		private VisualElement _subContainer;
+
+		private void Refresh()
+		{
+			SubContainer?.Clear();
+			SubContainer?.Add(ImageButtonCtrl.Create(
+				()=>CustomToolbarUtility.ETextTextureDisplay.TextureText,
+				_textGetter,
+				()=>null,
+				_tooltipGetter,
+				_onClick));
+		}
+		
+		protected override void OnDrawInToolbar(VisualElement container)
+		{
+			Refresh();
+			if (SubContainer != null)
+			{
+				container.Add(SubContainer);
+			}
+			
+// 			
+// 			var workspace = EditorUserSettings.GetConfigValue("vcPerforceWorkspace");
+// 			if (!string.IsNullOrEmpty(workspace))
+// 			{
+// 				container.Add(instance = ImageButtonCtrl.Create(
+// 					()=>CustomToolbarUtility.ETextTextureDisplay.TextureText,
+// 					()=>workspace,
+// 					()=>null,
+// 					()=>$@"点击本按钮 强制重连P4
+// 红色表示P4 Disconnect
+// 绿色表示P4 Connect
+// workspace路径:{Application.dataPath}",
+// 					() =>
+// 					{
+// 						Provider.UpdateSettings();
+// 						Counting();
+// 					}));
+// 				//GUI.color = Provider.onlineState != OnlineState.Offline ? Color.green : Color.red;
+// 			}
+// 			else
+// 			{
+// 				container.Add(instance = ImageButtonCtrl.Create(
+// 					()=>CustomToolbarUtility.ETextTextureDisplay.TextureText,
+// 					()=>"未配置P4",
+// 					()=>null,
+// 					()=>"点击开启配置窗口",
+// 					() =>
+// 					{
+// 						var assembly = Assembly.GetAssembly(typeof(EditorWindow));
+// 						var t = assembly.GetType("UnityEditor.SettingsWindow");
+// 						var obj = ScriptableObject.CreateInstance(t);
+// 						t.GetMethod("Show", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(obj, new object[] { SettingsScope.Project, "Project/Version Control" });
+// 						Counting();
+// 					}));
+// 			}
 		}
 	}
 }
