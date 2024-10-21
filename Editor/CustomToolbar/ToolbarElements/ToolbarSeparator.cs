@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace CustomToolbar.Editor
@@ -18,8 +19,16 @@ namespace CustomToolbar.Editor
 		protected override void OnDrawInSettings(VisualElement container)
 		{
 			base.OnDrawInSettings(container);
-			
-			container.Add(ParamsCtrl.Create(
+			var enableCtrl = container.Q<Toggle>("EnableCtrl");
+			if (enableCtrl != null)
+			{
+				var label = enableCtrl.Q<Label>();
+				if (label != null)
+				{
+					label.style.color = Color.cyan;
+				}
+			}
+			container.Add(NumCtrl.Create(
 				()=>StrShow,
 				()=>SeparatorPx.ToString(),
 				v=>

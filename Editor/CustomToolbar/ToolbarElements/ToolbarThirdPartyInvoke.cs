@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
+using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine.UIElements;
@@ -24,7 +25,7 @@ namespace CustomToolbar.Editor
 		private const string StrExecutePath = "调用的程序路径";
 		private const string StrExecuteNull = "程序路径命令为空";
 		private const string StrParams = "调用参数";
-		private string Tooltip => $"调用程序 {StrExecutePath}";
+		private string Tooltip => $"调用程序 {ExecutePath}";
 		
 		public override string CountingSubKey => Path.GetFileName(ExecutePath);
 
@@ -69,9 +70,13 @@ namespace CustomToolbar.Editor
 					}
 					else
 					{
-						//EditorTools.RunExeAsync(path, "",false);
-						//EditorApplication.ExecuteMenuItem(ExecutePath);
-						Counting();
+						var startInfo = new ProcessStartInfo();
+						startInfo.FileName = ExecutePath;
+						startInfo.Arguments =  @$"{Params}";
+
+						var process = new Process();
+						process.StartInfo = startInfo;
+						process.Start();
 					}
 				}));
 		}

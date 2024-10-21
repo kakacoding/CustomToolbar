@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -7,6 +8,14 @@ namespace CustomToolbar.Editor
 {
     internal static partial class CustomToolbarUtility
     {
+        [MenuItem("Tools/1")]
+        static void Func1() => EditorUtility.DisplayDialog("测试菜单", "Tools/1", "确定", "取消");
+        
+        [MenuItem("Tools/2")]
+        static void Func2() => EditorUtility.DisplayDialog("测试菜单", "Tools/2", "确定", "取消");
+        
+        [MenuItem("Tools/3")]
+        static void Func3() => EditorUtility.DisplayDialog("测试菜单", "Tools/3", "确定", "取消");
         internal static void LogError(string log)
         {
             Debug.LogError(log);
@@ -44,6 +53,6 @@ namespace CustomToolbar.Editor
 
         
 
-        public const string LOST_ICON = "Packages/com.unity.collab-proxy/Editor/PlasticSCM/Assets/Images/d_secondarytabclosehover@2x.png";
+        public const string LOST_ICON = "Packages/com.kakacoding.customtoolbar/Editor/CustomToolbar/Resources/Lost.png";
     }
 }

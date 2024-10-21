@@ -53,7 +53,7 @@ namespace CustomToolbar.Editor
 				v=>TexturePath=v
 				));
 
-			container.Add(PathCtrl.Create(
+			container.Add(MenuPathCtrl.Create(
 				()=>StrMenuPath,
 				()=>MenuInvokePath,
 				v=>MenuInvokePath=v

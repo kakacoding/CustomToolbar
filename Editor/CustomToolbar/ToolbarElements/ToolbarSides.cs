@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR && CUSTOM_TOOLBAR
 using System;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace CustomToolbar.Editor
@@ -11,7 +12,15 @@ namespace CustomToolbar.Editor
 		protected override void OnDrawInSettings(VisualElement container)
 		{
 			base.OnDrawInSettings(container);
-			
+			var enableCtrl = container.Q<Toggle>("EnableCtrl");
+			if (enableCtrl != null)
+			{
+				var label = enableCtrl.Q<Label>();
+				if (label != null)
+				{
+					label.style.color = Color.green;
+				}
+			}
 			container.Add(new Label
 			{
 				text = "-------------------------------------------------------------------------------------"

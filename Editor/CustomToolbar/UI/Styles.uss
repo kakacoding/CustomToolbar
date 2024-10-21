@@ -105,6 +105,16 @@
     width: 100px;
 }
 
+#MenuPathCtrl {
+    margin-left: 10px;
+    width: 600px;
+}
+#MenuPathCtrl .unity-label {
+    margin-top: -2px;
+    min-width: 90px;
+    max-width: 90px;
+}
+
 #PathCtrl {
     margin-left: 10px;
     width: 600px;
@@ -114,11 +124,22 @@
     min-width: 90px;
     max-width: 90px;
 }
+
 #ParamsCtrl {
     margin-left: 10px;
     width: 306px;
 }
 #ParamsCtrl .unity-label {
+    margin-top: -2px;
+    min-width: 55px;
+    max-width: 55px;
+}
+
+#NumCtrl {
+    margin-left: 10px;
+    width: 155px;
+}
+#NumCtrl .unity-label {
     margin-top: -2px;
     min-width: 55px;
     max-width: 55px;

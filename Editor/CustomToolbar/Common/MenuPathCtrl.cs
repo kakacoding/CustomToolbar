@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 namespace CustomToolbar.Editor
 {
-    internal class PathCtrl : VisualElement
+    internal class MenuPathCtrl : VisualElement
     {
         internal delegate string LabelGetter();
         internal delegate string TextGetter();
@@ -13,7 +13,7 @@ namespace CustomToolbar.Editor
         {
             var textField = new TextField(labelGetter.Invoke())
             {
-                name = nameof(PathCtrl),
+                name = nameof(MenuPathCtrl),
                 value = textGetter(),
             };
             textField.RegisterValueChangedCallback(evt =>
@@ -21,18 +21,6 @@ namespace CustomToolbar.Editor
                 textSetter.Invoke(evt.newValue);
                 ToolbarExtender.Reload();
             });
-            var btnBrowser = new Button(() =>
-            {
-                var path = EditorUtility.OpenFilePanel("选择文件", "", "");
-                if (!string.IsNullOrEmpty(path))
-                {
-                    textField.value = path;
-                }
-            })
-            {
-                text = "选择文件"
-            };
-            textField.Add(btnBrowser);
             
             return textField;
         }
